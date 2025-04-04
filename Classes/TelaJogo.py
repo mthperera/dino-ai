@@ -1,8 +1,5 @@
 import pygame
 import random
-import math
-import sys
-import neat
 from constantes import *
 from Classes.Dinossauro import Dinossauro
 from Classes.Chao import Chao
@@ -94,7 +91,7 @@ class TelaJogo:
         
         for cactus in self.grupo_cactus:
             cactus.movimentar()
-            if cactus.pos_x < -30:
+            if cactus.pos_x < -150:
                 cactus.kill()
             for dinossauro in self.grupo_dinossauro:
                 if self.verifica_colisao(cactus, dinossauro):
