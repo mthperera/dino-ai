@@ -3,7 +3,6 @@ from constantes import *
 from random import randint
 
 class Dinossauro(pygame.sprite.Sprite):
-
     def __init__(self):
         super().__init__()
         self.pos_x = POSICAO_X
@@ -15,11 +14,11 @@ class Dinossauro(pygame.sprite.Sprite):
         self.mask = MASKS_DINOSSAURO_CORRENDO[1]
         self.t0 = 0
         self.pulo_ativo = False
-    
+
 
     def pular(self):
 
-        self.t1 = pygame.time.get_ticks()
+        self.t1 = pygame.time.get_ticks()+1
         self.dt = (self.t1-self.t0)/1000
 
         if self.t0 >= 0:
@@ -31,7 +30,7 @@ class Dinossauro(pygame.sprite.Sprite):
                 self.pulo_ativo = False
 
         self.t0 = self.t1
-    
+
 
     def draw(self, window):
 
@@ -48,7 +47,7 @@ class Dinossauro(pygame.sprite.Sprite):
             window.blit(self.image, (self.rect.x, self.rect.y))
             pygame.draw.rect(window, self.color, (self.rect.x, self.rect.y, self.rect.width, self.rect.height), 2)
 
-    
+
     def animar_corrida(self):
 
         self.t2 = pygame.time.get_ticks()
@@ -59,11 +58,3 @@ class Dinossauro(pygame.sprite.Sprite):
         else:
             self.image = DINOSSAURO_CORRENDO[1]
             self.mask = MASKS_DINOSSAURO_CORRENDO[1]
-
-
-    
-
-
-        
-
-

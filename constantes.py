@@ -27,6 +27,8 @@ DINOSSAURO_PULANDO = pygame.image.load(os.path.join("Assets\Dino", "DinoJump.png
 
 CHAO = pygame.image.load(os.path.join("Assets\Outro", "Track.png"))
 
+DINO_METEORO = pygame.image.load(os.path.join("Assets\Dino", "Imagem_Dino_Meteoro.png"))
+
 # As masks das imagens:
 
 MASKS_CACTUS_PEQUENO = [
@@ -52,6 +54,7 @@ MASKS_DINOSSAURO_PULANDO = pygame.mask.from_surface(DINOSSAURO_PULANDO)
 pygame.font.init()
 FONTE_CORACAO = pygame.font.Font("assets/font/PressStart2P.ttf", 30)
 FONTE_PONTUACAO = pygame.font.Font("assets/font/PressStart2P.ttf", 18)
+FONTE_TEXTO = pygame.font.Font("assets/font/PressStart2P.ttf", 24)
 
 # Propriedades iniciais do Dinossauro:
 POSICAO_X = 30
@@ -60,12 +63,14 @@ VELOCIDADE_Y_PULO = - 400
 ACELERACAO_Y = 550
 
 # Propriedades do Chão:
-VELOCIDADE_CHAO = - 300
+VELOCIDADE_CHAO = - 500
 
 # Cores:
 BRANCO = (255, 255, 255)
 PRETO = (0, 0, 0)
+CINZA = (190, 190, 190)
 VERMELHO = (255, 0, 0)
+AZUL_CLARO=(246, 246, 246)
 
 # Caracteres:
 CORACAO = chr(9829)

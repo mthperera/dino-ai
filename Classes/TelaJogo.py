@@ -4,20 +4,23 @@ from constantes import *
 from Classes.Dinossauro import Dinossauro
 from Classes.Chao import *
 from Classes.Cactus import *
+from Classes.TelaGameOver import TelaGameOver
 
 
 class TelaJogo:
     def __init__(self):
+        self.tela_atual = "TelaJogo"
         self.dinossauro = Dinossauro()
         self.grupo_dinossauro = pygame.sprite.Group()
         self.grupo_dinossauro.add(self.dinossauro)
         self.grupo_cactus = pygame.sprite.Group()
         self.chao_1 = Chao_1()
         self.chao_2 = Chao_2()
+        self.tela_game_over = TelaGameOver()
         self.texto_coracao = FONTE_CORACAO.render(CORACAO, True, VERMELHO)
         self.texto_pontuacao = FONTE_PONTUACAO.render(f"Pontuação: {self.chao_1.pontuacao}", True, PRETO)
         self.t0 = 0
-        self.delta_t = 6000
+        self.delta_t = 3000
 
 
 
@@ -83,13 +86,14 @@ class TelaJogo:
             if evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_SPACE and not self.dinossauro.pulo_ativo:
                     self.dinossauro.pulo_ativo = True
+                    self.dinossauro.t0 = pygame.time.get_ticks()
                     self.dinossauro.velocidade_y = VELOCIDADE_Y_PULO
         
         self.t1 = pygame.time.get_ticks()
         self.divisor = self.t1//self.delta_t
         if self.divisor > 0:
             self.cria_cactus()
-            self.delta_t += 6000
+            self.delta_t += 3000
         
         
         for cactus in self.grupo_cactus:
@@ -101,7 +105,9 @@ class TelaJogo:
                     self.dinossauro.kill()
         
         if len(self.grupo_dinossauro) == 0:
-            return False
+            self.tela_game_over.pontuacao = self.chao_1.pontuacao
+            self.tela_atual = "TelaGameOver"
+
 
         for dinossauro in self.grupo_dinossauro:
             if dinossauro.pulo_ativo:

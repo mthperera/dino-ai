@@ -9,29 +9,35 @@ from Classes.Cactus import *
 
 class TelaJogoIA:
     def __init__(self):
+        self.tela_atual = "TelaJogoIA"
         self.window = pygame.display.set_mode((LARGURA_TELA, ALTURA_TELA))
         self.geracao = 0
+        self.geracao_max = 0
+        self.fitness_max = 0
+        self.melhor_genoma = None
         self.dinossauro = Dinossauro()
         self.grupo_dinossauro = pygame.sprite.Group()
         self.grupo_cactus = pygame.sprite.Group()
-        self.lista_cactus = list()
         self.chao_1 = Chao_1()
         self.chao_2 = Chao_2()
-        self.texto_coracao = FONTE_CORACAO.render(CORACAO, True, VERMELHO)
-        self.texto_pontuacao = FONTE_PONTUACAO.render(f"Pontuação: {self.chao_1.pontuacao}", True, PRETO)
-        self.texto_geracao = FONTE_PONTUACAO.render(f"Geracao: {self.geracao}", True, PRETO)
-        self.t0 = 0
-        self.delta_t = 5000
+        self.lista_cactus = list()
         self.lista_dinossauros = list()
         self.indices_para_remover = list()
         self.lista_genomas = list()
         self.redes = list()
+        self.texto_coracao = FONTE_CORACAO.render(CORACAO, True, VERMELHO)
+        self.texto_pontuacao = FONTE_TEXTO.render(f"Pontuação: {self.chao_1.pontuacao}", True, PRETO)
+        self.texto_geracao = FONTE_PONTUACAO.render(f"Geracao: {self.geracao}", True, PRETO)
+        self.texto_dinossauros_vivos = FONTE_PONTUACAO.render(f"Vivos: {len(self.lista_dinossauros)}", True, PRETO)
+        self.t0 = 0
+        self.delta_t = 5000
 
 
     def inicializa(self, genomas, config):
         pygame.init()
 
-        self.geracao += 1
+        self.chao_1.t0 = self.chao_1.t0_inicial = pygame.time.get_ticks()
+        self.chao_2.t0 = pygame.time.get_ticks()
 
         self.cria_dinossauros(genomas, config)
 
@@ -51,7 +57,7 @@ class TelaJogoIA:
             cactus_grande = CactusGrande(quantidade)
             self.grupo_cactus.add(cactus_grande)
             self.lista_cactus.append(cactus_grande)
-    
+
 
     def cria_dinossauros(self, genomas, config):
         
@@ -66,7 +72,7 @@ class TelaJogoIA:
             dinossauro = Dinossauro()
             self.grupo_dinossauro.add(dinossauro)
             self.lista_dinossauros.append(dinossauro)
-    
+
 
     def verifica_colisao(self, entidade_1, entidade_2):
         
@@ -83,6 +89,8 @@ class TelaJogoIA:
         window.fill(BRANCO)
         window.blit(self.texto_coracao, (10, 10))
         window.blit(self.texto_pontuacao, (LARGURA_TELA - 275, 10))
+        window.blit(self.texto_geracao, (LARGURA_TELA - 275, 40))
+        window.blit(self.texto_dinossauros_vivos, (LARGURA_TELA - 275, 70))
 
         for dinossauro in self.grupo_dinossauro:
             dinossauro.draw(window)
@@ -104,7 +112,7 @@ class TelaJogoIA:
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                return False
+                self.tela_atual = "TelaGameOverIA"
         
         self.t1 = pygame.time.get_ticks()
         self.divisor = self.t1//self.delta_t
@@ -123,9 +131,14 @@ class TelaJogoIA:
                     dinossauro.kill()
                     self.lista_genomas[i].fitness += (-1 + self.chao_1.pontuacao / 10)
                     self.indices_para_remover.append(i)
-        
+                if self.chao_1.pontuacao >= self.fitness_max:
+                    dinossauro.kill()
+                    self.lista_genomas[i].fitness += (self.chao_1.pontuacao / 10)
+                    self.indices_para_remover.append(i)
+            
         for indice in sorted(self.indices_para_remover, reverse=True):
             if indice < len(self.lista_dinossauros):
+                self.melhor_genoma = max(self.lista_genomas, key=lambda g: g.fitness)
                 self.lista_dinossauros.pop(indice)
                 self.lista_genomas.pop(indice)
                 self.redes.pop(indice)
@@ -134,7 +147,8 @@ class TelaJogoIA:
 
         
         if len(self.lista_dinossauros) == 0:
-            return False
+            if self.geracao == self.geracao_max - 1:
+                self.tela_atual = "TelaGameOverIA"
 
         for i, dinossauro in enumerate(self.lista_dinossauros):
 
@@ -153,7 +167,9 @@ class TelaJogoIA:
         self.chao_1.movimentar()
         self.chao_2.movimentar()
 
+
         self.texto_pontuacao = FONTE_PONTUACAO.render(f"Pontuação: {self.chao_1.pontuacao}", True, PRETO)
         self.texto_geracao = FONTE_PONTUACAO.render(f"Geracao: {self.geracao}", True, PRETO)
+        self.texto_dinossauros_vivos = FONTE_TEXTO.render(f"Vivos: {len(self.lista_dinossauros)}", True, PRETO)
 
         return True
