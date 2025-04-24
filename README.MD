@@ -1,5 +1,9 @@
 # 🦖 Dino-AI
 
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
+![Pygame](https://img.shields.io/badge/Pygame-2.5.2-green?logo=pygame)
+![NEAT](https://img.shields.io/badge/NEAT-evolution-red)
+
 Este projeto recria o clássico jogo do dinossauro offline do Google Chrome, mas com um toque especial: uma **Inteligência Artificial (IA)** evolui para jogar sozinha usando o algoritmo **NEAT (NeuroEvolution of Augmenting Topologies)**.
 
 ## 📌 Sobre
@@ -70,10 +74,8 @@ python jogo.py
 
 ## 📷 Imagem do Jogo
 
-![Gameplay](Assets/README.md/IA jogando.png)
+![Gameplay](Assets/README/IA_jogando.png)
 
-
-`![Gameplay](CAMINHO/DA/SUA/IMAGEM.png)`
 
 ## 👨‍💻 Autor
 
