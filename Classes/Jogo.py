@@ -26,8 +26,9 @@ class Jogo():
         self.caminho = os.path.dirname(__file__)
         self.caminho_config = os.path.join('config.txt')
         self.geracao_atual = -1
-        self.geracao_max = 1
+        self.geracao_max = 20
         self.fitness_max = 100
+    
     
     def avaliar_genomas(self, genomas, config):
         self.tela_jogo_ia = TelaJogoIA()

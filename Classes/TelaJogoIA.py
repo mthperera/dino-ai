@@ -149,6 +149,8 @@ class TelaJogoIA:
         if len(self.lista_dinossauros) == 0:
             if self.geracao == self.geracao_max - 1:
                 self.tela_atual = "TelaGameOverIA"
+            else:
+                return False
 
         for i, dinossauro in enumerate(self.lista_dinossauros):
 
@@ -157,6 +159,7 @@ class TelaJogoIA:
             output = self.redes[i].activate((distancia_cactus_1, distancia_cactus_2))
 
             if output[0] > 0.5 and dinossauro.pos_y == POSICAO_Y and not dinossauro.pulo_ativo:
+                dinossauro.t0 = pygame.time.get_ticks()
                 dinossauro.pulo_ativo = True
                 dinossauro.velocidade_y = VELOCIDADE_Y_PULO
         

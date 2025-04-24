@@ -24,10 +24,10 @@ class Chao_1(Chao):
         self.dt = (self.t1-self.t0)/1000
 
         if self.t0 >= 0:
-            if self.pos_x >= - self.image.get_width() + 1:
+            if self.pos_x >= - self.image.get_width():
                 self.pos_x += self.velocidade_x*self.dt
             else:
-                self.pos_x = self.image.get_width() - 1
+                self.pos_x = self.image.get_width()
 
         self.t0 = self.t1
         self.pontuacao = (self.t1 - self.t0_inicial) // 1000
@@ -46,10 +46,10 @@ class Chao_2(Chao):
         self.dt = (self.t1-self.t0)/1000
 
         if self.t0 >= 0:
-            if self.pos_x >= - self.image.get_width() + 1:
+            if self.pos_x >= - self.image.get_width():
                 self.pos_x += self.velocidade_x*self.dt
             else:
-                self.pos_x = self.image.get_width() - 1
+                self.pos_x = self.image.get_width()
 
         self.t0 = self.t1
     
